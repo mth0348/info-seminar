@@ -10,6 +10,7 @@
 \usepackage{graphicx} % used for images
 \graphicspath{ {./../img/} }
 \usepackage[labelfont=bf]{caption}
+\usepackage{amsmath}
 
 % Formatting
 \usepackage{geometry} % better margins for document
@@ -89,13 +90,6 @@
 \usepackage{fontawesome}
 \usetikzlibrary{positioning, shapes}
 \usetikzlibrary{arrows.meta}
-\geometry{
-	a4paper,
-	left=28mm,
-	right=28mm,
-    top=30mm,
-    bottom=30mm
-}
 
 % Colors 
 \RequirePackage{color}
@@ -132,7 +126,7 @@
 \newtotcounter{versionnumber}
 \newcommand{\docsubtitle}{Project documentation}
 \newcommand{\docauthor}{Matthias Thomann}
-\newcommand{\doctitle}{Strong Entropy Sources for Randomness Extractors}
+\newcommand{\doctitle}{Entropy Sources Used in Random Number Generation}
 \newcommand{\fieldofstudies}{BSc in Computer Science}
 \newcommand{\specialisation}{Computer perception and virtual reality}
 \newcommand{\prof}{Prof. Dr. Rolf Haenni}
@@ -158,29 +152,22 @@
 
 \pagenumbering{arabic}
 
-\input{partials/paper/chapter1-general.tex}
+\input{partials/paper/chapter1-introduction.tex}
 \clearpage
 
 \input{partials/paper/chapter2-entropy.tex}
 \clearpage
 
+\input{partials/paper/chapter3-extractor.tex}
+\clearpage
+
 % DUMMY ENTRIES, REMOVE WHEN GLOSSARY OR REFERENCES ARE ACTUALLY USED.
 \nocite{gitlab}
-\gls{gpu}
+\nocite{randomness:extractor1}
 % REMOVE
 
-\printnoidxglossary 
-\clearpage
 \printbibliography[heading=bibintoc]
 \clearpage
 \phantomsection
-\addcontentsline{toc}{section}{Listings}
-\phantomsection
-\addcontentsline{toc}{subsection}{Figures}
-\listoffigures
-\clearpage
-\phantomsection
-\addcontentsline{toc}{subsection}{Code Listings}
-\lstlistoflistings
 
 \end{document}

@@ -1,0 +1,92 @@
+\section{Randomness Extraction}
+Now that there is an established way of how to choose an entropy source, how to measure its entropy and how to validate it, the next logical step is to create a system that can extract random numbers from the given entropy source.
+In other words, the task of the so-called \emph{randomness extractor} now is to take an entropy source, and produce a sequence of truly random bits.
+\newline
+A randomness extractor $(k,\epsilon)$\emph{-extractor} is formally defined as:
+\begin{equation}
+    Ext: \{0, 1\}^n \to \{0,1\}^m
+\end{equation}
+
+\noindent
+Ideally, there would be deterministic function $Ext$ that converts an imperfect source of randomness $X$ into a (nearly) uniformly random output $Ext(X)$.
+As long as the source of randomness has a sufficiantly large amount of entropy, such an extractor should work for all sources.
+\newline
+An extractor is called a \emph{seeded} extractor, if the extractor is given a public uniformly random seed $S$, which is independent of the source $X$, and the extracted output $Ext(X; S)$ is required to be close to uniform.
+For example, the seed $S$ could be a part of a system random number generator (RNG) that extracts randomness from physical sources of entropy, such as the timing of interrupts.
+If the sources are truly independent of the seed $S$, then standard (strong) seeded extractors suffice to guarantee that the extracted outputs are nearly uniform\cite{randomness:extractor3}.
+\emptyline
+To generate a random number from an entropy source, one has to use the mentioned \emph{seed} as the input, a relatively small amount of random bits obtained from the entropy source.
+An example of how a randomness extractor could work was described by John von Neumann  and has since been extensively documented and worked on.
+However, practical applications of randomness extractors is still a scientific topic that is being researched right now.
+\emptyline 
+Random number generation is determinstic, often also called \emph{pseudo-random}, which means that for the same input, one will always receive a uniform output.
+The basic concept of that is, as mentioned, described by Neumann\cite{randomness:extractor4}:
+\emptyline
+For example, given a truly random seed $x$ is obtained by an entropy source $X$.
+Neumann's idea of quickly generating a pseudo-random sequence of numbers is to multiply the seed by itself. From there, the center part of the resulting number is used as the new seed and the method is repeated.
+\newline
+Therefore, $M$ is assumed to be the function that takes the center part of a number and outputs it. For example, $M(12321) = 232$.
+$$
+\begin{array}{l}
+    RNG(x) = M \left(x \times x\right)
+\end{array}
+$$
+
+\noindent
+In this example, for the seed $x$, the value $x = 121$ will be used. Of course, the seed could be anything obtained from the entropy source.
+The number generation process would then call the function $RNG$ with $RNG(121)$.
+$$
+\begin{array}{l}
+    RNG(121) = M \left(121 \times 121\right) = M(14641) = 464
+\end{array}
+$$
+
+\noindent
+This $464$ is now outputed as part of the generated random number sequence. It is also used as the next seed and the function is called anew.
+Therefore, for a next step, this would result in:
+$$
+\begin{array}{l}
+    RNG(464) = M \left(464 \times 464\right) = M(215296) = 529
+\end{array}
+$$
+
+\noindent
+The output of the generated random number sequence is now $464$ and $529$ concatenated, which is $464529$.
+In a third step, the result of the random number sequence would look like this:
+$$
+\begin{array}{l}
+    RNG(529) = M \left(529 \times 529\right) = M(279841) = 984
+\end{array}
+$$
+
+\noindent
+And the resulting sequence is now $464529984$. This process can now be repeated as many times as needed. This method is known as the \emph{middle-square method}.
+However, there are some hot-topic issues with the concept of this kind of number generation. First of all, the randomness of the generator is solely dependent on the randomness on the seed.
+This presupposes that the entropy source is reliably enough and outputs a good entropy value.
+
+\subsubsection{Period}
+One of the main concerns in pseudo-random number generators is the so-called \emph{period} of the generator.
+It describes how long it takes for generator to repeat itself and generate an identical set of random numbers as it has before.
+\newline
+In the example of the middle-square method above, the period would be very short.
+The issue is, that when starting with any given seed, the algorithm would eventually end up with a run-through where $M$ of a certain number would output the same as the original seed, therefore forcing the generator to repeat itself.
+This, of course, results in the same sequence being generated again, and that length before the cycle repeats itself is the period.
+\emptyline
+In the particular case of the middle-square method, the period is actually at most the length of the seed.
+For example, given the seed is still $x = 121$, the algorithm will loop through every whole three-digit number there is between $000$ and $999$.
+This means that the algorithm will eventually hit $121$ again and that at the latest of $999$ cycles. 
+Therefore, the period of $RNG(x)$ when $x$ is a three-digit number is at the most $1000$ and cannot expand beyond that.
+\newline
+However, if a large enough seed is chosen, the algorithm can expand into millions and millions of digits before repeating itself.
+
+\subsubsection{Seed Space}
+Another problem is the so-colled \emph{seed space}.
+For example, if one $A$ could generate a truly random sequence of 20 digits, it would be equivalent to a uniform selection from the stack of all possible sequences of digits.
+This stack would contain $10^20$ records, an astronomically large number.
+In comparison, generating a pseudo-random number sequence using a four-digit seed would be equivalent to a uniform selection from $10'000$ possible initial seeds, meaning that one could only ever generate $10'000$ different sequences.
+This describes the shrinking from the large \emph{key space} to the actual, much smaller \emph{seed space}. 
+But for a pseudo-random sequence to be indestinguishable from a randomly generated sequence, it must be impractical for a computer to try all seeds and look for a match.
+In short, with pseudo-random generators, the security increases as the length of the seed increases. 
+\newline
+This leaves with an important decision on what is possible and what is possible in reasonable time. The distinction is made between perfectly secure and practically secure.
+This concept has been adapted for a long time. An analogy for this is locking a bycicle with a padlock or number lock. It is practically secure, since it only stays unguarded for a short period of time. However, it is not perfectly secure.
