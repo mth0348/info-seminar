@@ -58,7 +58,7 @@ For the example in \sectionref{shannon}, the min-entropy $H$ would be calculated
 Note that the maximum possible value for the min-entropy of a random variable with $k$ distinct values is $\log_2 k$, which is the case when the random variable $X$ has a uniform probability distribution, like $p_1 = p_2 = ... = p_k = 1/k$.
 
 \subsection{Weak and Strong Entropy Sources}
-Naturally, there are different kind of sources, each with indiviudal strength in terms of the quality of randomness.
+Naturally, there are different kind of sources, each with individual strength in terms of the quality of randomness.
 They are called \emph{weak} and \emph{strong} entropy sources.
 
 \subsubsection{Practical examples}
@@ -84,12 +84,12 @@ More interestingly, here are the sources that are typically able to be access in
     \item System temperature monitor readings
     \item Noise like a microphone input or other peripherals, for example a video camera
 \end{itemize}
-\subsection{Mesauring and Digitizing}
+\subsection{Measuring and Digitizing}
 It is important to note that the entropy source has the be measured and digitized in order for the randomness extractor to use it.
 This, of course, can prove to be difficult in some cases where one does not have access to any kind of proper measurement tools.
 
 \subsubsection{Quality}
-As mentioned above, sampling the entropy source can introduce errors. It also provokes the question wether or not the user is measuring what he/she thinks that he/she is actually measuring.
+As mentioned above, sampling the entropy source can introduce errors. It also provokes the question whether or not the user is measuring what he/she thinks that he/she is actually measuring.
 One factor could be the noise or unreliability of readings produced by the measuring unit. Another question to solve is how much o sample variability is entropy and how much is just the complexity of the model.
 \newline
 To counter at least some model problems, the sampling rate can be adjusted. For example, measuring voltage level or thermal noise with frequency that is too high, correlated outputs are produced.
@@ -102,7 +102,7 @@ Even slower are simple physical events, like the interactions between humans and
 \subsubsection{Additional Noise Sources}
 As it may happen, other additional sources of noise may be available to the system of the entropy source's origin.
 Understandably, outputs of those additional sources may be combined to form a joint entropy of the outputs across all sources.
-However, it may prove to be hard to etstimate the entropy of the combined sources. Also, dependencies between those sources may further complicate the entropy estimation.
+However, it may prove to be hard to estimate the entropy of the combined sources. Also, dependencies between those sources may further complicate the entropy estimation.
 \newline
 Furthermore, it is assumed that the entropy sources have a unique primary noise source that is responsible to generate randomness. 
 The National Institute of Standards and Technology (NIST) describes the issue as follows: "It should be noted that multiple copies of the same physical noise source are considered as a single noise source (e.g., a source with eight ring
@@ -120,7 +120,7 @@ organizations.
 \newline
 As described by Kelsey et al. \cite{randomness:sources1}, the validation consists of testing by an NVLAP-accredited
 laboratory against the requirements of SP 800-90B, followed by a review of the results by CAVP and CMVP.
-The SP 800-90B is a recommendation by NIST for the entropy sources used for random bit generation\cite{randomness:validation}.
+The SP 800-90B is a recommendation by NIST for the entropy sources used for random bit generation\cite{entropy:validation}.
 
 \subsubsection{Validation Process}
 First of all, there are restrictions and requirements for the submitted data, which is to be validated.
@@ -138,7 +138,7 @@ This is why the source is restarted during validation exactly 1'000 times. Each 
 Usually, a restart of the entropy source could be as simple as powering off the system, letting it cool down, wait for ten seconds, then proceed.
 \newline
 The idea behind those restart tests is to re-evaluate the entropy estimate that was provided for the entropy source, by using different outputs from many restarts. Additionally, it ensures that the outputs, generated after a restart, are drawn from the same distribution as every other output.
-It is important to note that the tests will also reveal wether or not the distribution of samples in a restart sequence is independent of its position in the restart sequence.
+It is important to note that the tests will also reveal whether or not the distribution of samples in a restart sequence is independent of its position in the restart sequence.
 
 \subsection{Health Tests}
 The validation is an official process that is required to check if the entropy source does provide enough entropy.
@@ -157,7 +157,7 @@ Health tests are necessary as entropy sources may be fragile. Examples of how an
 
 \subsubsection{Deviation Detection}
 Naturally, the questions arises as how to detect if an entropy source is actually healthy and stable.
-For that, there are multiple ways of doing so. In the publication of the SP 800-90B recommendation by NIST\cite{randomness:sources1}, common occurences are:
+For that, there are multiple ways of doing so. In the publication of the SP 800-90B recommendation by NIST\cite{randomness:sources1}, common occurrences are:
 \begin{enumerate}
 \item When there is a significant decrease in the entropy of the outputs
 \item When noise source failures occur
@@ -166,7 +166,7 @@ For that, there are multiple ways of doing so. In the publication of the SP 800-
 
 \subsubsection{Types of Health Tests}
 An important detail to note is that health tests are performed before any conditioning (see \sectionref{conditioning}) is done.
-Also, there are different types of health tests. In a similar fassion to the restart tests, \emph{start-up health tests} are applied after the system has been started or restarted, before the first use of the entropy source.
+Also, there are different types of health tests. In a similar fashion to the restart tests, \emph{start-up health tests} are applied after the system has been started or restarted, before the first use of the entropy source.
 They specifically validate that nothing has failed since the last use of the entropy source .
 \newline
 Then there are \emph{continuous health tests}. These are run, as the name suggests, continuously and indefinitely on the outputs of the entropy source. Their goal is to detect failures during the use of the source, as it produces outputs.
@@ -190,14 +190,14 @@ In practice, there are more methods than just using the min-entropy.
 The samples from a noise source are \emph{independent and identically distributed} (IID) if each sample
 has the same probability distribution as every other sample, and all samples are mutually
 independent, as it is described by NIST\cite{randomness:sources1}.
-Since a reliable entropy source should not be identically distributed, thi is not the desired case. Also, a viable entropy source fails to produce IID outputs.
+Since a reliable entropy source should not be identically distributed, this is not the desired case. Also, a viable entropy source fails to produce IID outputs.
 
 \subsubsection{Recommended Estimators}
 The method used to estimate the entropy of an entropy source is called an \emph{estimator}. Usually, it is recommended to use an estimated named "The Most Common Value Estimator", better known as the min-entropy estimator.
 \newline
 If the output of an entropy source is IID, is it recommended to only use the min-entropy estimator to calculate the entropy, as the entropy source is weak and therefore, only a very conservative way of measuring entropy should be used.
 \emptyline
-For non-IID data, many different estimators can be applied to the outputs in order to calculate the entropy. Only to name a few, there is the collision estimator, the markov estimator, the compression estimator and many more.
+For non-IID data, many different estimators can be applied to the outputs in order to calculate the entropy. Only to name a few, there is the collision estimator, the Markov estimator, the compression estimator and many more.
 However, this document will not go deeper into the details of each different estimator.
 
 
